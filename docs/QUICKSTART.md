@@ -22,3 +22,6 @@ pnpm askit audit --path ./meu-projeto
 
 ## 5) Governança do repositório GitHub
 Consulte `docs/REPO_SETTINGS.md` para regras obrigatórias de proteção da `main`, política de merge e automações pós-merge.
+
+## 6) Smoke test de automação pós-merge
+Este repositório possui fluxo automático de merge + pós-merge no GitHub.
