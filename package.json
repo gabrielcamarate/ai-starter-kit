@@ -1,0 +1,22 @@
+{
+  "name": "ai-starter-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Starter kit monorepo para bootstrap e retrofit de projetos com padrão AI.",
+  "packageManager": "pnpm@10.18.1",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "askit": "pnpm -C packages/cli dev",
+    "build": "pnpm -C packages/cli build",
+    "lint": "pnpm -C packages/cli lint",
+    "typecheck": "pnpm -C packages/cli typecheck",
+    "test": "pnpm -C packages/cli test",
+    "validate:templates": "node scripts/validate-templates.mjs",
+    "validate:structure": "node scripts/validate-structure.mjs",
+    "scan:secrets": "gitleaks detect --source . --no-git",
+    "scan:osv": "osv-scanner --recursive .",
+    "ci:local": "pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm validate:templates && pnpm validate:structure"
+  }
+}

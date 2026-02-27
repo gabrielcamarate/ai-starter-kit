@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+jobs:
+  build-test-security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint CLI
+        run: pnpm -C packages/cli lint
+
+      - name: Typecheck CLI
+        run: pnpm -C packages/cli typecheck
+
+      - name: Build CLI
+        run: pnpm -C packages/cli build
+
+      - name: Test CLI
+        run: pnpm -C packages/cli test
+
+      - name: Validate templates
+        run: node scripts/validate-templates.mjs
+
+      - name: Validate structure
+        run: node scripts/validate-structure.mjs
+
+      - name: Scan secrets with gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install osv-scanner
+        run: |
+          curl -fsSL https://github.com/google/osv-scanner/releases/download/v2.2.2/osv-scanner_linux_amd64 -o osv-scanner
+          chmod +x osv-scanner
+
+      - name: Run osv-scanner
+        run: |
+          ./osv-scanner --recursive . --format json -o osv-report.json || true
+
+      - name: Fail on critical vulnerabilities
+        run: |
+          node -e '
+          const fs = require("fs");
+          const path = "osv-report.json";
+          if (!fs.existsSync(path)) {
+            console.error("osv-report.json não foi gerado");
+            process.exit(1);
+          }
+          const raw = fs.readFileSync(path, "utf-8");
+          const data = JSON.parse(raw);
+          let critical = false;
+
+          const isCriticalString = (value) => typeof value === "string" && value.toUpperCase().includes("CRITICAL");
+          const isCriticalScore = (value) => {
+            if (typeof value === "number") return value >= 9;
+            if (typeof value === "string") {
+              const parsed = Number(value);
+              return Number.isFinite(parsed) && parsed >= 9;
+            }
+            return false;
+          };
+
+          const walk = (node) => {
+            if (critical) return;
+            if (Array.isArray(node)) {
+              for (const item of node) walk(item);
+              return;
+            }
+            if (!node || typeof node !== "object") return;
+
+            for (const [k, v] of Object.entries(node)) {
+              if (k.toLowerCase().includes("severity") && isCriticalString(v)) critical = true;
+              if (k.toLowerCase().includes("score") && isCriticalScore(v)) critical = true;
+              if (typeof v === "object") walk(v);
+              if (critical) return;
+            }
+          };
+
+          walk(data);
+
+          if (critical) {
+            console.error("Vulnerabilidade crítica detectada pelo osv-scanner.");
+            process.exit(1);
+          }
+
+          console.log("Nenhuma vulnerabilidade crítica detectada pelo osv-scanner.");
+          '

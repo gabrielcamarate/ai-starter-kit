@@ -1,0 +1,5 @@
+# Control: {{name}}
+
+## Objetivo
+
+## Checklist

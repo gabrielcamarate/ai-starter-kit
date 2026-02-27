@@ -1,0 +1,5 @@
+# Skill: {{name}}
+
+## Objetivo
+
+## Procedimento

@@ -1,0 +1,14 @@
+{
+  "templates": [
+    {
+      "id": "react-ts",
+      "description": "Vite + React + TypeScript",
+      "path": "project-templates/react-ts/template"
+    },
+    {
+      "id": "python",
+      "description": "Projeto Python mínimo com pytest + ruff",
+      "path": "project-templates/python/template"
+    }
+  ]
+}
