@@ -33,3 +33,7 @@ Essas regras reduzem risco de bypass de revisão, simplificam auditoria de hist�
 - Revisar logs para evitar exposição de dados sensíveis.
 - Evitar execução de scripts inseguros (`curl|bash`, `wget|bash`, `eval`).
 - Manter lockfile e CI ativos.
+- Para integrações novas, aplicar Doc-first e registrar evidências de documentação em:
+  - Sources
+  - Key constraints
+  - Version (quando aplicável)

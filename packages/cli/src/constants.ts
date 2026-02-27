@@ -12,7 +12,9 @@ export const TEMPLATE_PROJECTS_PATH = path.join(TEMPLATES_ROOT, "project-templat
 
 export const REQUIRED_BASE_ITEMS = [
   "agents/agent_rules.md",
+  "controls/doc_first.md",
   "security/SECURITY_CHECKLIST.md",
+  "skills/registry.json",
   "skills/examples/skill-example.md"
 ];
 

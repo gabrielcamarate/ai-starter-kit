@@ -1,0 +1,22 @@
+{
+  "name": "doc-first-context7",
+  "version": "1.0.0",
+  "status": "active",
+  "tags": [
+    "doc-first",
+    "context7",
+    "governance"
+  ],
+  "requires_docs": true,
+  "doc_sources": [
+    "MCP context7"
+  ],
+  "inputs": [
+    "nome da biblioteca ou API",
+    "objetivo da mudança"
+  ],
+  "outputs": [
+    "plano com evidências de documentação",
+    "restrições da API registradas"
+  ]
+}

@@ -10,3 +10,4 @@
 - Escopo claro.
 - Risco e mitigação descritos.
 - Evidências de teste incluídas.
+- Se `requires_docs=true`, incluir evidência de Documentation Research.

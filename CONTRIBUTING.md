@@ -51,3 +51,14 @@ Why:
 - O workflow comenta `Merged successfully ✅` no PR.
 - O workflow registra no log se a branch de origem foi removida.
 - O workflow não altera código automaticamente.
+
+## Skills v2 e Doc-first
+- Antes de usar ou criar skills, consultar `skills/registry.json`.
+- Novas skills devem usar formato v2:
+  - `skills/<skill-name>/skill.md`
+  - `skills/<skill-name>/meta.json`
+- `meta.json` deve conter `status` (`active` ou `deprecated`).
+- Se `requires_docs=true`, registrar evidência mínima de pesquisa:
+  - Sources
+  - Key constraints
+  - Version (quando aplicável)

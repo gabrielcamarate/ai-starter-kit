@@ -11,7 +11,9 @@ test("init cria projeto com estrutura base", async () => {
 
   const target = path.join(root, "app-demo");
   assert.equal(fs.existsSync(path.join(target, "agents", "agent_rules.md")), true);
+  assert.equal(fs.existsSync(path.join(target, "controls", "doc_first.md")), true);
   assert.equal(fs.existsSync(path.join(target, "security", "SECURITY_CHECKLIST.md")), true);
+  assert.equal(fs.existsSync(path.join(target, "skills", "registry.json")), true);
   assert.equal(fs.existsSync(path.join(target, "src", "main.tsx")), true);
 });
 

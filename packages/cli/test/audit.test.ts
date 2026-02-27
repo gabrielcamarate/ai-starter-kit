@@ -16,4 +16,6 @@ test("audit gera relatório markdown", async () => {
   const content = fs.readFileSync(outFile, "utf-8");
   assert.match(content, /AUDIT REPORT/);
   assert.match(content, /Lacunas e riscos/);
+  assert.match(content, /HIGH - Lacuna estrutural: controls\/doc_first\.md/);
+  assert.match(content, /HIGH - Lacuna estrutural: skills\/registry\.json/);
 });
