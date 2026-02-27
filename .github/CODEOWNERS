@@ -1,0 +1,4 @@
+.github/workflows/* @gabrielcamarate
+packages/cli/** @gabrielcamarate
+scripts/** @gabrielcamarate
+* @gabrielcamarate

@@ -7,6 +7,7 @@ O `ai-starter-kit` é um monorepo local-first para padronizar a criação de nov
 ```text
 ai-starter-kit/
 ├─ .github/
+│  ├─ CODEOWNERS
 │  └─ workflows/
 │     └─ ci.yml
 ├─ agents/
@@ -208,6 +209,8 @@ Execução:
 6. CI executa install, lint, typecheck, build, test, validações estruturais, gitleaks e osv-scanner.
 7. Templates `react-ts` e `python` presentes e copiáveis pelo CLI.
 8. Documentação completa para uso local, retrofit e publicação no GitHub.
+9. Branch `main` protegida com histórico linear e revisão obrigatória via CODEOWNERS.
+10. Política de merge com squash/rebase permitidos e merge commit bloqueado.
 
 ## 8) Dependências com justificativa
 Dependências de `packages/cli`:
@@ -256,7 +259,16 @@ Todos os arquivos e diretórios da árvore da seção 2 são obrigatórios e dev
 5. Scan com `gitleaks`.
 6. Scan com `osv-scanner` e falha em vulnerabilidade crítica.
 
-## 14) Política anti-improviso
+## 14) Governança da branch principal
+- Branch `main` deve manter `Require linear history` habilitado.
+- Branch `main` deve exigir revisão de CODEOWNERS (`require_code_owner_reviews=true`).
+- CODEOWNERS obrigatório em `.github/CODEOWNERS` com cobertura de todo o repositório.
+- Política de merge no repositório:
+  - `allow_squash_merge=true`
+  - `allow_rebase_merge=true`
+  - `allow_merge_commit=false`
+
+## 15) Política anti-improviso
 - Nada “mágico”.
 - Tudo documentado e repetível.
 - Logs claros no CLI com prefixo `[askit]`.

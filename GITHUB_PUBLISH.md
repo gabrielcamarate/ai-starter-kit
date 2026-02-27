@@ -10,7 +10,7 @@ git init
 git add DESIGN.md package.json pnpm-workspace.yaml tsconfig.base.json .gitignore README.md LICENSE CONTRIBUTING.md SECURITY.md GITHUB_PUBLISH.md
 ```
 ```bash
-git add .github/workflows/ci.yml agents controls docs security skills scripts packages
+git add .github/CODEOWNERS .github/workflows/ci.yml agents controls docs security skills scripts packages
 ```
 
 ## 3) Criar commit semântico descritivo

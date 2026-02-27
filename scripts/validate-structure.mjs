@@ -5,6 +5,7 @@ const root = process.cwd();
 
 const expectedEntries = new Set([
   ".github",
+  ".github/CODEOWNERS",
   ".github/workflows",
   ".github/workflows/ci.yml",
   "agents",
