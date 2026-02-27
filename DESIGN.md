@@ -8,6 +8,7 @@ O `ai-starter-kit` é um monorepo local-first para padronizar a criação de nov
 ai-starter-kit/
 ├─ .github/
 │  ├─ CODEOWNERS
+│  ├─ pull_request_template.md
 │  └─ workflows/
 │     └─ ci.yml
 ├─ agents/
@@ -243,6 +244,7 @@ Todos os arquivos e diretórios da árvore da seção 2 são obrigatórios e dev
 8. Mensagens genéricas proibidas: `update`, `fix bug`, `changes`.
 9. Em `init --git`, criar 2 commits organizados e descritivos.
 10. O CLI nunca gera commits automáticos genéricos.
+11. Não usar `\n` literal em textos de commit/PR; usar quebras reais com bullets reais.
 
 ## 12) Extensões futuras documentadas (não implementar agora)
 - Qualidade de commits:
