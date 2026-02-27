@@ -12,17 +12,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.18.1
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
@@ -57,7 +58,7 @@ jobs:
 
       - name: Run osv-scanner
         run: |
-          ./osv-scanner --recursive . --format json -o osv-report.json || true
+          ./osv-scanner scan source -r . --allow-no-lockfiles --format json --output osv-report.json
 
       - name: Fail on critical vulnerabilities
         run: |

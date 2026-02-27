@@ -19,3 +19,9 @@ test("mensagens automáticas do init --git são somente em inglês", () => {
   assert.equal(gitUtil.includes("O que foi alterado:"), false);
   assert.equal(gitUtil.includes("Por que foi alterado:"), false);
 });
+
+test("init --git usa arquivo de mensagem com git commit -F", () => {
+  const gitUtil = fs.readFileSync(path.resolve("src/utils/git.ts"), "utf-8");
+  assert.equal(gitUtil.includes("\"commit\", \"-m\""), false);
+  assert.equal(gitUtil.includes("\"commit\", \"-F\""), true);
+});
