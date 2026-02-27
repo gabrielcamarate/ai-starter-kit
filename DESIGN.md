@@ -215,6 +215,7 @@ Execução:
 9. Branch `main` protegida com histórico linear e revisão obrigatória via CODEOWNERS.
 10. Política de merge com squash/rebase permitidos e merge commit bloqueado.
 11. Pós-merge automático ativo via GitHub Actions sem alteração automática de código.
+12. Auto-merge habilitado no repositório para PRs elegíveis.
 
 ## 8) Dependências com justificativa
 Dependências de `packages/cli`:
@@ -269,11 +270,16 @@ Todos os arquivos e diretórios da árvore da seção 2 são obrigatórios e dev
 - Branch `main` deve exigir revisão de CODEOWNERS (`require_code_owner_reviews=true`).
 - CODEOWNERS obrigatório em `.github/CODEOWNERS` com cobertura de todo o repositório.
 - O pós-merge deve ser automatizado pelo workflow `.github/workflows/post-merge.yml`.
+- O repositório deve manter `allow_auto_merge=true` para permitir merge automático em PRs elegíveis.
 - O repositório deve manter `delete_branch_on_merge=true` para remoção automática da head branch após merge.
 - Política de merge no repositório:
   - `allow_squash_merge=true`
   - `allow_rebase_merge=true`
   - `allow_merge_commit=false`
+- Comportamento mínimo do pós-merge:
+  - comentar `Merged successfully ✅` no PR
+  - registrar status de remoção da head branch em log
+  - nunca modificar código automaticamente
 
 ## 15) Política anti-improviso
 - Nada “mágico”.

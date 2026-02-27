@@ -44,8 +44,10 @@ Why:
 - Histórico linear obrigatório (`Require linear history`).
 - Merges permitidos: `Squash` e `Rebase`.
 - Merge commit direto desabilitado (`allow_merge_commit=false`).
+- Auto-merge permitido para PRs que já satisfazem checks e proteções.
 
 ## Pós-merge automático
 - O workflow `.github/workflows/post-merge.yml` executa automaticamente quando um PR é merged na `main`.
-- O workflow comenta `Merged ✅` no PR e roda verificações rápidas de consistência.
+- O workflow comenta `Merged successfully ✅` no PR.
+- O workflow registra no log se a branch de origem foi removida.
 - O workflow não altera código automaticamente.

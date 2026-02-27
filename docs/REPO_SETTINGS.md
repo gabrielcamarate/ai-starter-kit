@@ -2,13 +2,19 @@
 
 Este documento define as configurações obrigatórias de governança do repositório `ai-starter-kit`.
 
-## 1) Automatically delete head branches
+## 1) Allow auto-merge
+- Objetivo: permitir que PRs com checks/regras atendidos sejam mergeados automaticamente.
+- Onde habilitar na UI:
+  - `Settings` -> `General` -> seção `Pull Requests`
+  - ativar `Allow auto-merge`
+
+## 2) Automatically delete head branches
 - Objetivo: deletar automaticamente a branch de origem após merge do PR.
 - Onde habilitar na UI:
   - `Settings` -> `General` -> seção `Pull Requests`
   - ativar `Automatically delete head branches`
 
-## 2) Merge settings
+## 3) Merge settings
 - Política obrigatória:
   - `Allow squash merging`: **ON**
   - `Allow rebase merging`: **ON**
@@ -17,7 +23,7 @@ Este documento define as configurações obrigatórias de governança do reposit
 - Onde configurar na UI:
   - `Settings` -> `General` -> seção `Pull Requests`
 
-## 3) Branch protection (main)
+## 4) Branch protection (main)
 Expectativas mínimas para `main`:
 - Pull request obrigatório para merge.
 - Required status checks com `build-test-security` e `strict=true`.
@@ -31,27 +37,27 @@ Expectativas mínimas para `main`:
 - Onde configurar na UI:
   - `Settings` -> `Rules` -> `Rulesets` (ou `Branches` em repositórios legados)
 
-## 4) Pós-merge automático
+## 5) Pós-merge automático
 Workflow: `.github/workflows/post-merge.yml`
 - Trigger: `pull_request` com `closed` e `merged=true` na `main`.
 - Ações:
-  - comenta no PR: `Merged ✅`
-  - faz checagem rápida de consistência (`validate-structure` e `validate-templates`)
-  - registra verificação best-effort do tipo de merge
-  - verifica best-effort se a head branch foi deletada
+  - comenta no PR: `Merged successfully ✅`
+  - registra em log se a head branch foi removida
 - Não altera código automaticamente.
 
-## 5) Setup checklist do repositório
+## 6) Setup checklist do repositório
+- [ ] `Allow auto-merge` ativo.
 - [ ] `Automatically delete head branches` ativo.
-- [ ] Merge settings conforme seção 2.
-- [ ] Branch protection da `main` conforme seção 3.
+- [ ] Merge settings conforme seção 3.
+- [ ] Branch protection da `main` conforme seção 4.
 - [ ] Workflow de pós-merge habilitado e executando após merge.
 
-## 6) Comandos `gh` para aplicar por código
+## 7) Comandos `gh` para aplicar por código
 ```bash
-# Enable auto-delete head branches + merge policy
+# Enable auto-merge + auto-delete head branches + merge policy
 gh api -X PATCH repos/gabrielcamarate/ai-starter-kit \
   -H 'Accept: application/vnd.github+json' \
+  -f allow_auto_merge=true \
   -f delete_branch_on_merge=true \
   -f allow_squash_merge=true \
   -f allow_rebase_merge=true \
