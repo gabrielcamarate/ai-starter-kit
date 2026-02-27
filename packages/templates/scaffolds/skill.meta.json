@@ -1,0 +1,16 @@
+{
+  "name": "{{name}}",
+  "version": "1.0.0",
+  "status": "active",
+  "tags": [
+    "default"
+  ],
+  "requires_docs": false,
+  "doc_sources": [],
+  "inputs": [
+    "descreva os inputs esperados"
+  ],
+  "outputs": [
+    "descreva os outputs esperados"
+  ]
+}

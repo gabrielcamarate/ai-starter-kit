@@ -4,8 +4,11 @@ import path from "node:path";
 const required = [
   "packages/templates/catalog.json",
   "packages/templates/scaffolds/skill.md",
+  "packages/templates/scaffolds/skill.meta.json",
   "packages/templates/scaffolds/agent.md",
   "packages/templates/scaffolds/control.md",
+  "packages/templates/base/controls/doc_first.md",
+  "packages/templates/base/skills/registry.json",
   "packages/templates/project-templates/react-ts/README.md",
   "packages/templates/project-templates/react-ts/template/package.json",
   "packages/templates/project-templates/react-ts/template/index.html",
@@ -17,7 +20,9 @@ const required = [
   "packages/templates/project-templates/python/README.md",
   "packages/templates/project-templates/python/template/pyproject.toml",
   "packages/templates/project-templates/python/template/src/app/__init__.py",
-  "packages/templates/project-templates/python/template/tests/test_smoke.py"
+  "packages/templates/project-templates/python/template/tests/test_smoke.py",
+  "packages/templates/base/skills/examples/doc-first-context7/skill.md",
+  "packages/templates/base/skills/examples/doc-first-context7/meta.json"
 ];
 
 const missing = required.filter((item) => !fs.existsSync(path.resolve(item)));

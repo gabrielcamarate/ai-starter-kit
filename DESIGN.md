@@ -16,6 +16,7 @@ ai-starter-kit/
 │  ├─ README.md
 │  └─ agent_rules.md
 ├─ controls/
+│  ├─ doc_first.md
 │  ├─ quality.md
 │  └─ security.md
 ├─ docs/
@@ -30,7 +31,11 @@ ai-starter-kit/
 │  ├─ README.md
 │  ├─ examples/
 │  │  ├─ agent-example.md
+│  │  ├─ doc-first-context7/
+│  │  │  ├─ meta.json
+│  │  │  └─ skill.md
 │  │  └─ skill-example.md
+│  ├─ registry.json
 │  └─ templates/
 │     ├─ agent.template.md
 │     ├─ control.template.md
@@ -65,6 +70,8 @@ ai-starter-kit/
 │  │  │  ├─ template/
 │  │  │  │  ├─ catalog.ts
 │  │  │  │  └─ copy.ts
+│  │  │  ├─ skills/
+│  │  │  │  └─ registry.ts
 │  │  │  └─ utils/
 │  │  │     ├─ fs.ts
 │  │  │     ├─ git.ts
@@ -83,6 +90,7 @@ ai-starter-kit/
 │     │  │  ├─ README.md
 │     │  │  └─ agent_rules.md
 │     │  ├─ controls/
+│     │  │  ├─ doc_first.md
 │     │  │  ├─ quality.md
 │     │  │  └─ security.md
 │     │  ├─ docs/
@@ -96,7 +104,11 @@ ai-starter-kit/
 │     │     ├─ README.md
 │     │     ├─ examples/
 │     │     │  ├─ agent-example.md
+│     │     │  ├─ doc-first-context7/
+│     │     │  │  ├─ meta.json
+│     │     │  │  └─ skill.md
 │     │     │  └─ skill-example.md
+│     │     ├─ registry.json
 │     │     └─ templates/
 │     │        ├─ agent.template.md
 │     │        ├─ control.template.md
@@ -127,8 +139,10 @@ ai-starter-kit/
 │     └─ scaffolds/
 │        ├─ agent.md
 │        ├─ control.md
+│        ├─ skill.meta.json
 │        └─ skill.md
 ├─ .gitignore
+├─ CHANGELOG.md
 ├─ CONTRIBUTING.md
 ├─ DESIGN.md
 ├─ GITHUB_PUBLISH.md
@@ -163,7 +177,11 @@ Execução:
    - `--git` inicializa git local e cria 2 commits descritivos sem `git add .`.
    - `--yes` confirma explicitamente sobrescrita em diretório existente não-vazio (idempotência controlada).
 2. `new:skill <name> [--path <project-dir>]`
-   - Gera arquivo de skill a partir do scaffold oficial.
+   - Gera skill no formato v2:
+     - `skills/<name>/skill.md`
+     - `skills/<name>/meta.json`
+   - Atualiza automaticamente `skills/registry.json` de forma determinística.
+   - Mantém compatibilidade com skills legadas (`skills/*.md`) no registry.
 3. `new:agent <name> [--path <project-dir>]`
    - Gera arquivo de agente a partir do scaffold oficial.
 4. `new:control <name> [--path <project-dir>]`
@@ -216,6 +234,8 @@ Execução:
 10. Política de merge com squash/rebase permitidos e merge commit bloqueado.
 11. Pós-merge automático ativo via GitHub Actions sem alteração automática de código.
 12. Auto-merge habilitado no repositório para PRs elegíveis.
+13. Skills seguem formato v2 com `meta.json` validado e `skills/registry.json` determinístico.
+14. Fluxo Doc-first obrigatório documentado em `controls/doc_first.md` e `agents/agent_rules.md`.
 
 ## 8) Dependências com justificativa
 Dependências de `packages/cli`:
@@ -234,6 +254,7 @@ Todos os arquivos e diretórios da árvore da seção 2 são obrigatórios e dev
 - Nenhum diretório adicional pode ser criado fora da árvore oficial.
 - Nenhuma dependência extra pode ser adicionada sem atualização prévia deste `DESIGN.md` com justificativa.
 - A validação automática (`scripts/validate-structure.mjs`) falha caso haja falta ou excesso de artefatos previstos.
+- `skills/registry.json` deve ser determinístico (ordem estável, sem timestamps/campos voláteis).
 
 ## 11) Política obrigatória de commits
 1. Nunca usar `git add .`.
@@ -285,3 +306,53 @@ Todos os arquivos e diretórios da árvore da seção 2 são obrigatórios e dev
 - Nada “mágico”.
 - Tudo documentado e repetível.
 - Logs claros no CLI com prefixo `[askit]`.
+
+## 16) Skills v2 + Doc-first
+### 16.1 Contrato de skill
+- Formato padrão: `skills/<skill-name>/skill.md` + `skills/<skill-name>/meta.json`.
+- `skill-name` deve ser kebab-case: `^[a-z0-9]+(?:-[a-z0-9]+)*$`.
+- O nome deve ser único no `skills/registry.json`.
+
+### 16.2 Schema explícito de `meta.json`
+```json
+{
+  "name": "string (kebab-case)",
+  "version": "string (ex: 1.0.0)",
+  "status": "active | deprecated",
+  "tags": ["string"],
+  "requires_docs": "boolean",
+  "doc_sources": ["string"],
+  "inputs": ["string"],
+  "outputs": ["string"]
+}
+```
+
+Validação mínima no CLI (sem dependências externas):
+- `name`: string kebab-case.
+- `version`: string não vazia.
+- `status`: `active` ou `deprecated`.
+- `requires_docs`: boolean.
+- `tags`, `doc_sources`, `inputs`, `outputs`: arrays de strings.
+- Em inválido: erro crítico e código de saída `1`.
+
+### 16.3 Registry e compatibilidade legada
+- `skills/registry.json` é atualizado automaticamente por `new:skill`.
+- Ordenação determinística alfabética por `name`.
+- Skills legadas `skills/*.md` continuam reconhecidas no registry (`format=legacy`).
+- Em colisão de nome entre legacy e v2:
+  - v2 prevalece como entrada canônica única;
+  - legacy não gera duplicidade ambígua.
+- Skills `deprecated` permanecem no registry para rastreabilidade.
+
+### 16.4 Ritual obrigatório antes de codar
+1. Consultar `skills/registry.json`.
+2. Selecionar skill e verificar `requires_docs`.
+3. Se `requires_docs=true`, executar Doc-first (Context7 quando disponível, fallback documentado quando indisponível).
+4. Registrar evidência mínima no plano:
+   - Sources
+   - Key constraints
+   - Version (quando aplicável)
+
+### 16.5 Regras operacionais de agente
+- `agents/agent_rules.md` exige consulta ao registry antes de uso/criação de skill.
+- A estrutura padrão de execução inclui seção `Documentation Research` quando `requires_docs=true`.

@@ -7,3 +7,4 @@ Checklist mínimo para features novas:
 - Revisar autenticação/autorização quando aplicável.
 - Tratar upload de arquivos com validação de tipo/tamanho.
 - Evitar execução dinâmica de comandos sem validação estrita.
+- Aplicar Doc-first para APIs novas conforme `controls/doc_first.md`.
