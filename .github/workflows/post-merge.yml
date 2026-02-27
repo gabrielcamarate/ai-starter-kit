@@ -1,0 +1,58 @@
+name: Post Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  post-merge:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: "Merged successfully ✅"
+            });
+
+      - name: Check if head branch was deleted (best effort)
+        id: branch_cleanup
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const branch = pr.head.ref;
+
+            try {
+              await github.rest.repos.getBranch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch
+              });
+
+              core.warning(`Head branch still exists: ${branch}`);
+              core.setOutput("deleted", "false");
+            } catch (error) {
+              if (error.status === 404) {
+                core.info(`Head branch already deleted: ${branch}`);
+                core.setOutput("deleted", "true");
+              } else {
+                throw error;
+              }
+            }
+
+      - name: Write post-merge summary
+        run: |
+          echo "## Post-merge report" >> "$GITHUB_STEP_SUMMARY"
+          echo "- PR: #${{ github.event.pull_request.number }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Head branch deleted: ${{ steps.branch_cleanup.outputs.deleted }}" >> "$GITHUB_STEP_SUMMARY"
