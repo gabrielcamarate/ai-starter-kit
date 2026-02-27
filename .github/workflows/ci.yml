@@ -58,7 +58,7 @@ jobs:
 
       - name: Run osv-scanner
         run: |
-          ./osv-scanner --recursive . --format json -o osv-report.json || true
+          ./osv-scanner scan source -r . --allow-no-lockfiles --format json --output osv-report.json
 
       - name: Fail on critical vulnerabilities
         run: |
