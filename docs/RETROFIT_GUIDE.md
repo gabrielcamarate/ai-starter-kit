@@ -23,3 +23,6 @@ Aplicar o padrão do starter em projetos existentes sem quebra.
 ## Regra de colisão legacy vs v2
 - Se houver legacy e v2 com o mesmo nome, o registry prioriza a v2.
 - A entrada legacy não é duplicada no catálogo final.
+
+## Referência operacional
+- Para executar retrofit com consistência no dia a dia, seguir `docs/OPERATING_SYSTEM.md`.

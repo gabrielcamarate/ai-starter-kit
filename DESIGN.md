@@ -14,12 +14,17 @@ ai-starter-kit/
 │     └─ post-merge.yml
 ├─ agents/
 │  ├─ README.md
-│  └─ agent_rules.md
+│  ├─ agent_rules.md
+│  └─ prompts/
+│     ├─ CREATE_SKILL.md
+│     ├─ INIT_PROJECT.md
+│     └─ RETROFIT_PROJECT.md
 ├─ controls/
 │  ├─ doc_first.md
 │  ├─ quality.md
 │  └─ security.md
 ├─ docs/
+│  ├─ OPERATING_SYSTEM.md
 │  ├─ QUICKSTART.md
 │  ├─ REPO_SETTINGS.md
 │  ├─ RETROFIT_GUIDE.md
@@ -41,6 +46,7 @@ ai-starter-kit/
 │     ├─ control.template.md
 │     └─ skill.template.md
 ├─ scripts/
+│  ├─ smoke-templates.mjs
 │  ├─ validate-structure.mjs
 │  └─ validate-templates.mjs
 ├─ packages/
@@ -227,7 +233,7 @@ Execução:
 3. CLI implementado com comandos `init`, `new:*`, `audit`.
 4. `init` respeita idempotência (não sobrescreve sem confirmação explícita).
 5. `audit` não modifica alvo além do relatório.
-6. CI executa install, lint, typecheck, build, test, validações estruturais, gitleaks e osv-scanner.
+6. CI executa install, lint, typecheck, build, test, validações estruturais, smoke de templates, gitleaks e osv-scanner.
 7. Templates `react-ts` e `python` presentes e copiáveis pelo CLI.
 8. Documentação completa para uso local, retrofit e publicação no GitHub.
 9. Branch `main` protegida com histórico linear e revisão obrigatória via CODEOWNERS.
@@ -283,8 +289,9 @@ Todos os arquivos e diretórios da árvore da seção 2 são obrigatórios e dev
 2. `lint`, `typecheck`, `build`, `test` de `packages/cli`.
 3. `node scripts/validate-templates.mjs`.
 4. `node scripts/validate-structure.mjs`.
-5. Scan com `gitleaks`.
-6. Scan com `osv-scanner` e falha em vulnerabilidade crítica.
+5. `node scripts/smoke-templates.mjs` para validar bootstrap executável dos templates `react-ts` e `python`.
+6. Scan com `gitleaks`.
+7. Scan com `osv-scanner` e falha em vulnerabilidade crítica.
 
 ## 14) Governança da branch principal
 - Branch `main` deve manter `Require linear history` habilitado.

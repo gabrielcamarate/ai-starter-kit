@@ -46,6 +46,9 @@ jobs:
       - name: Validate structure
         run: node scripts/validate-structure.mjs
 
+      - name: Smoke test templates
+        run: node scripts/smoke-templates.mjs
+
       - name: Scan secrets with gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:

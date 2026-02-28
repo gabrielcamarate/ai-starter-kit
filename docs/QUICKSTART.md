@@ -42,3 +42,10 @@ Consulte `docs/REPO_SETTINGS.md` para regras obrigatórias de proteção da `mai
 
 ## 8) Smoke test de automação pós-merge
 Este repositório possui fluxo automático de merge + pós-merge no GitHub.
+
+## 9) Ritual operacional único
+Consulte `docs/OPERATING_SYSTEM.md` para o fluxo completo de operação diária:
+- registry-first
+- doc-first
+- plan-then-code
+- validate-before-finish

@@ -6,9 +6,12 @@
 
 ## Fluxo de contribuição
 1. Crie branch dedicada.
-2. Execute `pnpm ci:local` antes de abrir PR.
+2. Execute `pnpm ci:local` antes de abrir PR (inclui smoke test de templates).
 3. Abra PR com escopo claro e checklist de testes.
 4. Para merge em `main`, é obrigatório passar pelos requisitos de proteção da branch.
+
+Fluxo operacional diário:
+- seguir `docs/OPERATING_SYSTEM.md` (registry-first, doc-first, plan-then-code).
 
 ## Política de commits (obrigatória)
 1. Nunca use `git add .`.

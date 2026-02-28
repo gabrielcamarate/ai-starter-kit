@@ -11,6 +11,7 @@
 - Incluir `controls/doc_first.md`.
 - Incluir `skills/registry.json`.
 - Manter exemplos e modelos de skills no formato v2.
+- Garantir que o template passe no smoke test de geração e execução (`scripts/smoke-templates.mjs`).
 
 ## Skills e scaffolds
 - `packages/templates/scaffolds/skill.md` define o contrato de conteúdo da skill.
