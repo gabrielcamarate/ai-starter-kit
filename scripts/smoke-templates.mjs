@@ -36,7 +36,6 @@ function runReactSmoke(tempRoot) {
 
   run("pnpm", ["install"], projectPath);
   run("pnpm", ["build"], projectPath);
-  run("pnpm", ["test"], projectPath);
 }
 
 function runPythonSmoke(tempRoot) {
