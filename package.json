@@ -15,8 +15,9 @@
     "test": "pnpm -C packages/cli test",
     "validate:templates": "node scripts/validate-templates.mjs",
     "validate:structure": "node scripts/validate-structure.mjs",
+    "smoke:templates": "node scripts/smoke-templates.mjs",
     "scan:secrets": "gitleaks detect --source . --no-git",
     "scan:osv": "osv-scanner --recursive .",
-    "ci:local": "pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm validate:templates && pnpm validate:structure"
+    "ci:local": "pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm validate:templates && pnpm validate:structure && pnpm smoke:templates"
   }
 }
