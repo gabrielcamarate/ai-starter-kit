@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1.1 - 2026-02-28
+
+### Added
+- Template smoke checks in CI/local:
+  - generates `react-ts` project and validates `pnpm install` + `pnpm build`;
+  - generates `python` project and validates `python -m compileall`.
+- New single-page operational ritual in `docs/OPERATING_SYSTEM.md`.
+- Official Codex prompt pack in `agents/prompts/`:
+  - `INIT_PROJECT.md`
+  - `RETROFIT_PROJECT.md`
+  - `CREATE_SKILL.md`
+
+### Changed
+- Deterministic structure validation expanded for `OPERATING_SYSTEM` and prompt pack artifacts.
+- Supporting docs updated to reference the daily operational ritual.
+
 ## 1.1.0 - 2026-02-27
 
 ### Added
